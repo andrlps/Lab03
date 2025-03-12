@@ -1,14 +1,22 @@
-import time
-
-import multiDictionary as md
+from multiDictionary import MultiDictionary
+from richWord import RichWord
 
 class SpellChecker:
 
     def __init__(self):
-        pass
+        self.md = MultiDictionary()
+        self.md.addDict("italian","resources/Italian.txt")
+        self.md.addDict("english","resources/English.txt")
+        self.md.addDict("spanish","resources/Spanish.txt")
 
-    def handleSentence(self, txtIn, language):
-        pass
+    def handleSentence(self, txtin, language):
+        txtin = replaceChars(txtin)
+        txtin = txtin.lower().split(" ")
+        words = []
+        for word in txtin:
+            word = RichWord(word)
+            words.append(word)
+        self.md.searchWord(words, language)
 
     def printMenu(self):
         print("______________________________\n" +
@@ -23,4 +31,7 @@ class SpellChecker:
 
 
 def replaceChars(text):
-    pass
+    chars = "\\*_{}[]><#+-.!$£&%^;,=.ç°§+|'"
+    for c in chars:
+        text = text.replace(c, "")
+    return text
